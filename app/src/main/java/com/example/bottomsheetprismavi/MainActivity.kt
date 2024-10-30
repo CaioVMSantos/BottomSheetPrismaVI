@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -91,32 +92,49 @@ class MainActivity : ComponentActivity() {
                                     .padding(16.dp), //Adiciona um espaçamento interno
                                 horizontalAlignment = Alignment.CenterHorizontally // Alinha o conteúdo horizontalmente no centro
                             ){
-                                Text(text = colorName)
-
-
                                 //Linha com Imagem e Textos
                                 Row ( modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(top = 8.dp), //Adicionando um prreenchimento interno acima
-                                verticalAlignment = CenterVertically //Alinhamento vertical no centro
+                                    verticalAlignment = Alignment.Top
                                 ){
+
                                     Image(
                                         painter = painterResource(id = R.drawable.colorimage),
                                         contentDescription = "Image below and left of text",
                                         modifier = Modifier
-                                            .size(150.dp),
+                                            .size(140.dp)
+                                            .alignByBaseline()//Alinha a imagem verticalmente com o texto
+                                            .align(Alignment.Top), //Alinha a imagem horizontalmente
                                         contentScale = ContentScale.Crop //Define a escala da imagem para cortar
                                     )
+                                    
+                                    // Coluna principal contendo o título e as informações
                                     Column(
                                         modifier = Modifier
-                                            .padding(start = 35.dp) // Espaçamento entre a imagem e a coluna de textos
+                                            .padding(start = 15.dp) // Espaçamento entre a imagem e a coluna de textos
+                                            .alignByBaseline()
+                                            .fillMaxWidth() // Define a largura da coluna completa
+                                    ) {
+                                        // "Color Name" como título acima da Column de informações
+                                        Text(
+                                            text = colorName,
+                                            fontSize = 16.sp,
+                                            modifier = Modifier
+                                                .padding(bottom = 8.dp) // Espaçamento abaixo do título
+                                        )
+
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(start = 0.dp) // Espaçamento entre a imagem e a coluna de textos
                                             .height(100.dp) // Altura da coluna de textos)
-                                            .width(180.dp) // Largura da coluna de textos
+                                            .fillMaxWidth() // Faz a coluna ocupar toda a largura
                                             .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
-                                            .background(Color.Gray)
-                                            .padding(16.dp)
+                                            .background(Color.Gray.copy(alpha = 0.3f))
+                                            .padding(16.dp) // Espaçamento interno
 
                                     ) {
+
                                         Text(
                                             text = colorHex,
                                             fontSize = 14.sp // Tamanho padrão
@@ -131,6 +149,7 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
 
+                                }
                                 }
 
                                 Column(
@@ -148,7 +167,7 @@ class MainActivity : ComponentActivity() {
                                             text = "Color Temperature",
                                             fontSize = 16.sp,
                                             modifier = Modifier.weight(1f) // Faz o texto ocupar o espaço disponível
-                                                .padding(bottom = 8.dp)
+                                                .padding(bottom = 8.dp) // Espaçamento abaixo do título
                                         )
 
                                         // Texto "Color Match"
@@ -156,45 +175,51 @@ class MainActivity : ComponentActivity() {
                                             text = "Color Match",
                                             fontSize = 16.sp,
                                             modifier = Modifier.weight(1f) // Faz o texto ocupar o espaço disponível
-                                                .padding(bottom = 8.dp)
+                                                .padding(bottom = 8.dp) // Espaçamento abaixo do título
                                         )
                                     }
 
-                                    // Linha contendo os dois Box
+                                    // Linha contendo os dois Box para "Color Temperature" e "Color Match"
                                     Row(
                                         modifier = Modifier.fillMaxWidth(), // Faz a Row ocupar toda a largura
-                                        verticalAlignment = Alignment.CenterVertically // Alinha os elementos verticalmente
+                                        verticalAlignment = Alignment.Top // Alinha os elementos na parte superior
                                     ) {
                                         // Primeiro Box (Color Temperature)
                                         Box(
                                             modifier = Modifier
                                                 .height(70.dp) // Altura do Box
-                                                .width(165.dp) // Largura do Box
+                                                .weight(1f) // Faz o Box ocupar o espaço disponível
                                                 .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
-                                                .background(Color.Gray) // Aplica o background cinza
+                                                .background(Color.Gray.copy(alpha = 0.3f)) // Aplica o background cinza
                                                 .padding(16.dp) // Espaçamento interno
                                         ) {
-                                            Text(
-                                                text = colorTemperatureName,
-                                                fontSize = 16.sp,
-                                                modifier = Modifier
-                                                    .align(Alignment.CenterStart) // Alinha o texto à esquerda
-                                            )
+                                            // Usando uma Column para organizar o conteúdo interno
+                                            Column(
+                                                verticalArrangement = Arrangement.Bottom // Alinha os textos na parte inferior
+                                            ) {
+                                                Text(
+                                                    text = colorTemperatureName,
+                                                    fontSize = 16.sp,
+                                                    modifier = Modifier.align(Alignment.Start) // Alinha o texto à esquerda
+                                                )
+                                            }
                                         }
 
                                         Spacer(modifier = Modifier.width(16.dp)) // Espaçamento entre os boxes
 
-                                        // Segundo Box (Color Match) - agora maior
+                                        // Segundo Box (Color Match)
                                         Box(
                                             modifier = Modifier
-                                                .height(80.dp) // Aumente a altura para 150 dp (ou mais)
-                                                .width(165.dp) // Largura do Box
+                                                .height(80.dp) // Aumente a altura se necessário
+                                                .weight(1f) // Faz o Box ocupar o espaço disponível
                                                 .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
-                                                .background(Color.Gray) // Aplica o background cinza
+                                                .background(Color.Gray.copy(alpha = 0.3f)) // Aplica o background cinza
                                                 .padding(16.dp) // Espaçamento interno
                                         ) {
                                             // Usando uma Column para organizar o conteúdo interno
-                                            Column {
+                                            Column(
+                                                verticalArrangement = Arrangement.Bottom // Alinha os textos na parte inferior
+                                            ) {
                                                 Text(
                                                     text = colorMatch1, // Título do Box
                                                     fontSize = 16.sp,
@@ -206,29 +231,24 @@ class MainActivity : ComponentActivity() {
                                                     fontSize = 16.sp,
                                                     modifier = Modifier.align(Alignment.Start) // Alinha o texto à esquerda
                                                 )
+
                                             }
                                         }
                                     }
-                                }
 
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(top = 8.dp), // Preenchimento interno acima da coluna
-                                ) {
-                                    // Texto acima da Column de detalhes
+                                    // Texto "Color Terminology" abaixo do conteúdo de "Color Temperature"
                                     Text(
                                         text = "Color Terminology",
                                         fontSize = 16.sp,
-                                        modifier = Modifier.padding(bottom = 8.dp) // Espaçamento abaixo do texto
+                                        modifier = Modifier.padding(top = 8.dp, bottom = 8.dp) // Espaçamento acima e abaixo do texto
                                     )
 
+                                    // Box para "Color Terminology"
                                     Box(
                                         modifier = Modifier
                                             .height(70.dp) // Altura do Box
-                                            .width(165.dp) // Largura do Box
                                             .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
-                                            .background(Color.Gray) // Aplica o background cinza
+                                            .background(Color.Gray.copy(alpha = 0.3f)) // Aplica o background cinza
                                             .padding(16.dp) // Espaçamento interno
                                     ) {
                                         // Colocando o texto alinhado à esquerda e centralizado verticalmente
@@ -240,6 +260,8 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
                                 }
+
+
 
                                 Column(
                                     modifier = Modifier
@@ -258,7 +280,7 @@ class MainActivity : ComponentActivity() {
                                             .height(260.dp) // Altura do Box
                                             .width(600.dp) // Largura do Box
                                             .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
-                                            .background(Color.Gray) // Aplica o background cinza
+                                            .background(Color.Gray.copy(alpha = 0.3f)) // Aplica o background cinza
                                             .padding(16.dp) // Espaçamento interno
                                     ) {
                                         // Colocando o texto alinhado à esquerda e centralizado verticalmente
