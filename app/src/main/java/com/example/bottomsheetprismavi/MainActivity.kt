@@ -77,8 +77,8 @@ class MainActivity : ComponentActivity() {
                     val colorRyb: String = "RYB: (0%, 0%, 0%)"
                     val descriptionText: String = "The color HOT embodies an intense and vibrant hue that evokes feelings of warmth and energy. It radiates a bold, fiery essence, reminiscent of a blazing sunset or glowing embers. This captivating shade captures attention and ignites passion, making it perfect for designs that aim to inspire excitement and vitality.\""
                     val colorTerminology: String = "Primary"
-                    val colorMatch1: String = "Color #1"
-                    val colorMatch2: String = "Color #2"
+                    val colorMatch1: String = "#000000"
+                    val colorMatch2: String = "#111111"
 
 
                     BottomSheetScaffold(
@@ -108,7 +108,7 @@ class MainActivity : ComponentActivity() {
                                             .align(Alignment.Top), //Alinha a imagem horizontalmente
                                         contentScale = ContentScale.Crop //Define a escala da imagem para cortar
                                     )
-                                    
+
                                     // Coluna principal contendo o título e as informações
                                     Column(
                                         modifier = Modifier
@@ -162,104 +162,139 @@ class MainActivity : ComponentActivity() {
                                         modifier = Modifier.fillMaxWidth(), // Faz a Row ocupar toda a largura
                                         verticalAlignment = Alignment.CenterVertically // Alinha os elementos verticalmente
                                     ) {
-                                        // Texto "Color Temperature"
-                                        Text(
-                                            text = "Color Temperature",
-                                            fontSize = 16.sp,
-                                            modifier = Modifier.weight(1f) // Faz o texto ocupar o espaço disponível
-                                                .padding(bottom = 8.dp) // Espaçamento abaixo do título
-                                        )
-
-                                        // Texto "Color Match"
-                                        Text(
-                                            text = "Color Match",
-                                            fontSize = 16.sp,
-                                            modifier = Modifier.weight(1f) // Faz o texto ocupar o espaço disponível
-                                                .padding(bottom = 8.dp) // Espaçamento abaixo do título
-                                        )
-                                    }
-
-                                    // Linha contendo os dois Box para "Color Temperature" e "Color Match"
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(), // Faz a Row ocupar toda a largura
-                                        verticalAlignment = Alignment.Top // Alinha os elementos na parte superior
-                                    ) {
-                                        // Primeiro Box (Color Temperature)
-                                        Box(
+                                        // Coluna para "Color Temperature" e "Color Terminology"
+                                        Column(
                                             modifier = Modifier
-                                                .height(70.dp) // Altura do Box
-                                                .weight(1f) // Faz o Box ocupar o espaço disponível
-                                                .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
-                                                .background(Color.Gray.copy(alpha = 0.3f)) // Aplica o background cinza
-                                                .padding(16.dp) // Espaçamento interno
+                                                .weight(0.9f) // Faz a coluna ocupar metade do espaço disponível
+                                                .padding(end = 8.dp) // Espaçamento à direita
                                         ) {
-                                            // Usando uma Column para organizar o conteúdo interno
-                                            Column(
-                                                verticalArrangement = Arrangement.Bottom // Alinha os textos na parte inferior
+                                            // Texto "Color Temperature"
+                                            Text(
+                                                text = "Color Temperature",
+                                                fontSize = 16.sp,
+                                                modifier = Modifier
+                                                    .padding(bottom = 8.dp) // Espaçamento abaixo do título
+                                            )
+
+                                            // Box para "Color Temperature" (sua temperatura de cor)
+                                            Box(
+                                                modifier = Modifier
+                                                    .height(70.dp) // Altura do Box
+                                                    .fillMaxWidth()
+                                                    .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
+                                                    .background(Color.Gray.copy(alpha = 0.3f)) // Aplica o background cinza
+                                                    .padding(16.dp) // Espaçamento interno
                                             ) {
                                                 Text(
                                                     text = colorTemperatureName,
                                                     fontSize = 16.sp,
-                                                    modifier = Modifier.align(Alignment.Start) // Alinha o texto à esquerda
+                                                    modifier = Modifier.align(Alignment.CenterStart) // Alinha o texto à esquerda
                                                 )
                                             }
-                                        }
 
-                                        Spacer(modifier = Modifier.width(16.dp)) // Espaçamento entre os boxes
+                                            // Texto "Color Terminology"
+                                            Text(
+                                                text = "Color Terminology",
+                                                fontSize = 16.sp,
+                                                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp) // Espaçamento acima e abaixo do texto
+                                            )
 
-                                        // Segundo Box (Color Match)
-                                        Box(
-                                            modifier = Modifier
-                                                .height(80.dp) // Aumente a altura se necessário
-                                                .weight(1f) // Faz o Box ocupar o espaço disponível
-                                                .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
-                                                .background(Color.Gray.copy(alpha = 0.3f)) // Aplica o background cinza
-                                                .padding(16.dp) // Espaçamento interno
-                                        ) {
-                                            // Usando uma Column para organizar o conteúdo interno
-                                            Column(
-                                                verticalArrangement = Arrangement.Bottom // Alinha os textos na parte inferior
+                                            // Box para "Color Terminology"
+                                            Box(
+                                                modifier = Modifier
+                                                    .height(70.dp) // Altura do Box
+                                                    .fillMaxWidth()
+                                                    .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
+                                                    .background(Color.Gray.copy(alpha = 0.3f)) // Aplica o background cinza
+                                                    .padding(16.dp) // Espaçamento interno
                                             ) {
+                                                // Colocando o texto alinhado à esquerda e centralizado verticalmente
                                                 Text(
-                                                    text = colorMatch1, // Título do Box
-                                                    fontSize = 16.sp,
-                                                    modifier = Modifier.align(Alignment.Start) // Alinha o texto à esquerda
+                                                    text = colorTerminology,
+                                                    fontSize = 16.sp, // Tamanho padrão
+                                                    modifier = Modifier
+                                                        .align(Alignment.CenterStart) // Alinha o texto à esquerda, mas centraliza verticalmente
                                                 )
-
-                                                Text(
-                                                    text = colorMatch2, // Título do Box
-                                                    fontSize = 16.sp,
-                                                    modifier = Modifier.align(Alignment.Start) // Alinha o texto à esquerda
-                                                )
-
                                             }
                                         }
-                                    }
 
-                                    // Texto "Color Terminology" abaixo do conteúdo de "Color Temperature"
-                                    Text(
-                                        text = "Color Terminology",
-                                        fontSize = 16.sp,
-                                        modifier = Modifier.padding(top = 8.dp, bottom = 8.dp) // Espaçamento acima e abaixo do texto
-                                    )
-
-                                    // Box para "Color Terminology"
-                                    Box(
-                                        modifier = Modifier
-                                            .height(70.dp) // Altura do Box
-                                            .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
-                                            .background(Color.Gray.copy(alpha = 0.3f)) // Aplica o background cinza
-                                            .padding(16.dp) // Espaçamento interno
-                                    ) {
-                                        // Colocando o texto alinhado à esquerda e centralizado verticalmente
-                                        Text(
-                                            text = colorTerminology,
-                                            fontSize = 16.sp, // Tamanho padrão
+                                        // Coluna para "Color Match"
+                                        Column(
                                             modifier = Modifier
-                                                .align(Alignment.CenterStart) // Alinha o texto à esquerda, mas centraliza verticalmente
-                                        )
+                                                .weight(1f) // Faz a coluna ocupar metade do espaço disponível
+                                                .height(210.dp)
+                                                .padding(start = 10.dp) // Espaçamento à esquerda
+                                        ) {
+                                            // Texto "Color Match"
+                                            Text(
+                                                text = "Color Match",
+                                                fontSize = 16.sp,
+                                                modifier = Modifier
+                                                    .padding(bottom = 8.dp) // Espaçamento abaixo do título
+                                                    .align(Alignment.Start)
+                                            )
+
+                                            // Box para os detalhes do "Color Match"
+                                            Box(
+                                                modifier = Modifier
+                                                    .height(240.dp) // Aumente a altura se necessário
+                                                    .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
+                                                    .background(Color.Yellow.copy(alpha = 0.1f)) // Aplica o background cinza
+                                                    .padding(28.dp) // Espaçamento interno
+                                            ) {
+                                                // Usando uma Column para organizar cada par de imagem e texto
+                                                Column(
+                                                    verticalArrangement = Arrangement.SpaceBetween, // Espaça os elementos verticalmente
+                                                    modifier = Modifier.fillMaxWidth() // Preenche a largura do Box
+                                                        .height(110.dp)
+                                                ) {
+
+                                                    Row(
+                                                        verticalAlignment = Alignment.CenterVertically // Alinha verticalmente ao centro
+                                                    ) {
+                                                        // Imagem para o primeiro colorMatch
+                                                        Image(
+                                                            painter = painterResource(id = R.drawable.colorimage), // Substitua "image1" pelo nome da sua imagem
+                                                            contentDescription = null,
+                                                            modifier = Modifier.size(50.dp) // Tamanho da imagem
+                                                                .padding(top = 5.dp)
+                                                        )
+
+                                                        // Texto para o primeiro colorMatch
+                                                        Text(
+                                                            text = colorMatch1, // Título do Box
+                                                            fontSize = 14.sp,
+                                                            modifier = Modifier
+                                                                .padding(start = 8.dp) // Espaçamento à esquerda do texto
+                                                        )
+                                                    }
+
+                                                    Row(
+                                                        verticalAlignment = Alignment.CenterVertically // Alinha verticalmente ao centro
+                                                    ) {
+                                                        // Imagem para o segundo colorMatch
+                                                        Image(
+                                                            painter = painterResource(id = R.drawable.colorimage), // Substitua "image2" pelo nome da sua imagem
+                                                            contentDescription = null, // Descrição da imagem (opcional)
+                                                            modifier = Modifier.size(50.dp) // Tamanho da imagem
+                                                                .padding(top = 5.dp)
+                                                        )
+
+                                                        // Texto para o segundo colorMatch
+                                                        Text(
+                                                            text = colorMatch2, // Título do Box
+                                                            fontSize = 14.sp,
+                                                            modifier = Modifier
+                                                                .padding(start = 8.dp) // Espaçamento à esquerda do texto
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        }
+
                                     }
                                 }
+
 
 
 
