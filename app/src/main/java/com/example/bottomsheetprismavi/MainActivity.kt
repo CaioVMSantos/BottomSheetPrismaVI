@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,32 +19,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bottomsheetprismavi.ui.theme.BottomSheetPrismaVITheme
@@ -65,21 +56,27 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background //Cor de fundo
                 ) {
 
+                    fun parseColor(colorString: String): Color {
+                    val colorLong = colorString.removePrefix("#").toLong(16) // Remove '#' e converte para Long
+                    return Color(colorLong or 0xFF000000) // Adiciona opacidade caso não esteja presente
+                }
+
                     //Inicializando o estado do ModalBottomSheet
                     val sheetState = rememberModalBottomSheetState()
                     var isSheetOpen by remember { mutableStateOf(false) } //Variável de estado para controlar se o BottomSheet está aberto ou fechado
-                    val scaffoldState = rememberBottomSheetScaffoldState() // Inicializa o estado do BottomSheetScaffold
+                    val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = rememberModalBottomSheetState()) // Inicializa o estado do BottomSheetScaffold
                     val scope = rememberCoroutineScope() //Criando um escopo de Corrotinas para controlar a animação do BottomSheet
                     val colorName: String = "Color Name"
                     val colorTemperatureName: String = "HOT"
-                    val colorHex: String = "HEX: #000000"
+                    val hexCode: String = "FFFFFF"
+                    val formatedHexCode: Color = parseColor(hexCode)
+                    val colorHex: String = "HEX: #$hexCode"
                     val colorRgb: String = "RGB: (0, 0, 0)"
                     val colorRyb: String = "RYB: (0%, 0%, 0%)"
                     val descriptionText: String = "The color HOT embodies an intense and vibrant hue that evokes feelings of warmth and energy. It radiates a bold, fiery essence, reminiscent of a blazing sunset or glowing embers. This captivating shade captures attention and ignites passion, making it perfect for designs that aim to inspire excitement and vitality.\""
                     val colorTerminology: String = "Primary"
                     val colorMatch1: String = "#000000"
                     val colorMatch2: String = "#111111"
-
 
                     BottomSheetScaffold(
                         scaffoldState = scaffoldState,
@@ -89,6 +86,7 @@ class MainActivity : ComponentActivity() {
                             Column (
                                 modifier = Modifier
                                     .fillMaxWidth() //Coluna ocupa toda a largura
+                                    .background(Color.Black.copy(0.3f)) //Cor de fundo)
                                     .padding(16.dp), //Adiciona um espaçamento interno
                                 horizontalAlignment = Alignment.CenterHorizontally // Alinha o conteúdo horizontalmente no centro
                             ){
@@ -99,14 +97,12 @@ class MainActivity : ComponentActivity() {
                                     verticalAlignment = Alignment.Top
                                 ){
 
-                                    Image(
-                                        painter = painterResource(id = R.drawable.colorimage),
-                                        contentDescription = "Image below and left of text",
+                                    Box(
                                         modifier = Modifier
-                                            .size(140.dp)
-                                            .alignByBaseline()//Alinha a imagem verticalmente com o texto
-                                            .align(Alignment.Top), //Alinha a imagem horizontalmente
-                                        contentScale = ContentScale.Crop //Define a escala da imagem para cortar
+                                            .size(150.dp)
+                                            .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
+                                            .background(formatedHexCode) // Substitua 0xFF123456 pelo código hexadecimal desejado
+                                            .padding(10.dp) // Espaçamento interno
                                     )
 
                                     // Coluna principal contendo o título e as informações
@@ -237,26 +233,27 @@ class MainActivity : ComponentActivity() {
                                             // Box para os detalhes do "Color Match"
                                             Box(
                                                 modifier = Modifier
-                                                    .height(240.dp) // Aumente a altura se necessário
+                                                    .height(250.dp) // Aumente a altura se necessário
                                                     .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
                                                     .background(Color.Yellow.copy(alpha = 0.1f)) // Aplica o background cinza
-                                                    .padding(28.dp) // Espaçamento interno
+                                                    .padding(10.dp) // Espaçamento interno
                                             ) {
                                                 // Usando uma Column para organizar cada par de imagem e texto
                                                 Column(
-                                                    verticalArrangement = Arrangement.SpaceBetween, // Espaça os elementos verticalmente
                                                     modifier = Modifier.fillMaxWidth() // Preenche a largura do Box
-                                                        .height(110.dp)
+                                                        .padding(10.dp)
+                                                        .fillMaxHeight(),
+                                                            verticalArrangement = Arrangement.Center
                                                 ) {
-
                                                     Row(
+                                                        modifier = Modifier.fillMaxWidth(),
                                                         verticalAlignment = Alignment.CenterVertically // Alinha verticalmente ao centro
                                                     ) {
                                                         // Imagem para o primeiro colorMatch
                                                         Image(
                                                             painter = painterResource(id = R.drawable.colorimage), // Substitua "image1" pelo nome da sua imagem
                                                             contentDescription = null,
-                                                            modifier = Modifier.size(50.dp) // Tamanho da imagem
+                                                            modifier = Modifier.size(60.dp) // Tamanho da imagem
                                                                 .padding(top = 5.dp)
                                                         )
 
@@ -265,18 +262,21 @@ class MainActivity : ComponentActivity() {
                                                             text = colorMatch1, // Título do Box
                                                             fontSize = 14.sp,
                                                             modifier = Modifier
-                                                                .padding(start = 8.dp) // Espaçamento à esquerda do texto
+                                                                .padding(start = 4.dp) // Espaçamento à esquerda do texto
                                                         )
                                                     }
 
+                                                    Spacer(modifier = Modifier.height(8.dp))
+
                                                     Row(
+                                                        modifier = Modifier.fillMaxWidth(),
                                                         verticalAlignment = Alignment.CenterVertically // Alinha verticalmente ao centro
                                                     ) {
                                                         // Imagem para o segundo colorMatch
                                                         Image(
                                                             painter = painterResource(id = R.drawable.colorimage), // Substitua "image2" pelo nome da sua imagem
                                                             contentDescription = null, // Descrição da imagem (opcional)
-                                                            modifier = Modifier.size(50.dp) // Tamanho da imagem
+                                                            modifier = Modifier.size(60.dp) // Tamanho da imagem
                                                                 .padding(top = 5.dp)
                                                         )
 
@@ -285,7 +285,7 @@ class MainActivity : ComponentActivity() {
                                                             text = colorMatch2, // Título do Box
                                                             fontSize = 14.sp,
                                                             modifier = Modifier
-                                                                .padding(start = 8.dp) // Espaçamento à esquerda do texto
+                                                                .padding(start = 4.dp) // Espaçamento à esquerda do texto
                                                         )
                                                     }
                                                 }
