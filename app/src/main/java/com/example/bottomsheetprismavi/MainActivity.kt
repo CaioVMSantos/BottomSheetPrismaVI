@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bottomsheetprismavi.ui.theme.BottomSheetPrismaVITheme
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
                     var isSheetOpen by remember { mutableStateOf(false) } //Variável de estado para controlar se o BottomSheet está aberto ou fechado
                     val scaffoldState = rememberBottomSheetScaffoldState()
                     val scope = rememberCoroutineScope()
+                    var bottomSheetHight = 135.dp
 
                     val colorName: String = "Color Name"
                     val colorTemperatureName: String = "HOT"
@@ -81,9 +83,14 @@ class MainActivity : ComponentActivity() {
                         scaffoldState.bottomSheetState.partialExpand()
                     }
 
+                    fun alterBottomSheetHeight() {
+                        if (bottomSheetHight == 135.dp) 0.dp else 135.dp
+                    }
+
+
                     BottomSheetScaffold(
                         scaffoldState = scaffoldState,
-                        sheetPeekHeight = 200.dp, // Altura inicial do BottomSheet parcialmente expandido
+                        sheetPeekHeight = bottomSheetHight, // Altura inicial do BottomSheet parcialmente expandido
                         sheetContent = {
                             // Conteúdo do BottomSheet
                             Column(
@@ -104,7 +111,7 @@ class MainActivity : ComponentActivity() {
                                     Box(
                                         modifier = Modifier
                                             .size(150.dp)
-                                            .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
+                                            .clip(RoundedCornerShape(20.dp)) // Define a forma arredondada dos cantos
                                             .background(formatedHexCode) // Substitua 0xFF123456 pelo código hexadecimal desejado
                                             .padding(10.dp) // Espaçamento interno
                                     )
@@ -254,11 +261,12 @@ class MainActivity : ComponentActivity() {
                                                         verticalAlignment = Alignment.CenterVertically // Alinha verticalmente ao centro
                                                     ) {
                                                         // Imagem para o primeiro colorMatch
-                                                        Image(
-                                                            painter = painterResource(id = R.drawable.colorimage), // Substitua "image1" pelo nome da sua imagem
-                                                            contentDescription = null,
-                                                            modifier = Modifier.size(60.dp) // Tamanho da imagem
-                                                                .padding(top = 5.dp)
+                                                        Box(
+                                                            modifier = Modifier
+                                                                .size(45.dp)
+                                                                .clip(RoundedCornerShape(10.dp)) // Define a forma arredondada dos cantos
+                                                                .background(formatedHexCode) // Substitua 0xFF123456 pelo código hexadecimal desejado
+                                                                .padding(10.dp) // Espaçamento interno
                                                         )
 
                                                         // Texto para o primeiro colorMatch
@@ -270,18 +278,19 @@ class MainActivity : ComponentActivity() {
                                                         )
                                                     }
 
-                                                    Spacer(modifier = Modifier.height(8.dp))
+                                                    Spacer(modifier = Modifier.height(20.dp))
 
                                                     Row(
                                                         modifier = Modifier.fillMaxWidth(),
                                                         verticalAlignment = Alignment.CenterVertically // Alinha verticalmente ao centro
                                                     ) {
                                                         // Imagem para o segundo colorMatch
-                                                        Image(
-                                                            painter = painterResource(id = R.drawable.colorimage), // Substitua "image2" pelo nome da sua imagem
-                                                            contentDescription = null, // Descrição da imagem (opcional)
-                                                            modifier = Modifier.size(60.dp) // Tamanho da imagem
-                                                                .padding(top = 5.dp)
+                                                        Box(
+                                                            modifier = Modifier
+                                                                .size(45.dp)
+                                                                .clip(RoundedCornerShape(10.dp)) // Define a forma arredondada dos cantos
+                                                                .background(formatedHexCode) // Substitua 0xFF123456 pelo código hexadecimal desejado
+                                                                .padding(10.dp) // Espaçamento interno
                                                         )
 
                                                         // Texto para o segundo colorMatch
@@ -349,6 +358,17 @@ class MainActivity : ComponentActivity() {
                             }) {
                                 Text(text = "Open PrismaVI Bottom Sheet!")
                             }
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+//                            Button(onClick = {
+//                                scope.launch {
+//                                    scaffoldState.bottomSheetState.partialExpand()
+//                                    alterBottomSheetHeight()
+//                                }
+//                            }) {
+//                                Text(text = "Hight Test!")
+//                            }
                         }
                     }
                 }
