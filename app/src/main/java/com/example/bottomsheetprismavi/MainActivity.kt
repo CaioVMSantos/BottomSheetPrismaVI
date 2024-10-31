@@ -27,6 +27,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,29 +44,26 @@ import com.example.bottomsheetprismavi.ui.theme.BottomSheetPrismaVITheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
-    // Usando a anotação OptIn para habilitar recursos experimentais Material3
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        // Definindo o conteúdo da atividade
         setContent {
             BottomSheetPrismaVITheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(), //Ocupa toda a tela
-                    color = MaterialTheme.colorScheme.background //Cor de fundo
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
                 ) {
-
                     fun parseColor(colorString: String): Color {
-                    val colorLong = colorString.removePrefix("#").toLong(16) // Remove '#' e converte para Long
-                    return Color(colorLong or 0xFF000000) // Adiciona opacidade caso não esteja presente
-                }
+                        val colorLong = colorString.removePrefix("#").toLong(16) // Remove '#' e converte para Long
+                        return Color(colorLong or 0xFF000000) // Adiciona opacidade caso não esteja presente
+                    }
 
-                    //Inicializando o estado do ModalBottomSheet
                     val sheetState = rememberModalBottomSheetState()
                     var isSheetOpen by remember { mutableStateOf(false) } //Variável de estado para controlar se o BottomSheet está aberto ou fechado
-                    val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = rememberModalBottomSheetState()) // Inicializa o estado do BottomSheetScaffold
-                    val scope = rememberCoroutineScope() //Criando um escopo de Corrotinas para controlar a animação do BottomSheet
+                    val scaffoldState = rememberBottomSheetScaffoldState()
+                    val scope = rememberCoroutineScope()
+
                     val colorName: String = "Color Name"
                     val colorTemperatureName: String = "HOT"
                     val hexCode: String = "FFFFFF"
@@ -78,18 +76,24 @@ class MainActivity : ComponentActivity() {
                     val colorMatch1: String = "#000000"
                     val colorMatch2: String = "#111111"
 
+                    // Exibir o BottomSheet parcialmente expandido ao iniciar o app
+                    LaunchedEffect(Unit) {
+                        scaffoldState.bottomSheetState.partialExpand()
+                    }
+
                     BottomSheetScaffold(
                         scaffoldState = scaffoldState,
+                        sheetPeekHeight = 200.dp, // Altura inicial do BottomSheet parcialmente expandido
                         sheetContent = {
-
                             // Conteúdo do BottomSheet
-                            Column (
+                            Column(
                                 modifier = Modifier
-                                    .fillMaxWidth() //Coluna ocupa toda a largura
-                                    .background(Color.Black.copy(0.3f)) //Cor de fundo)
-                                    .padding(16.dp), //Adiciona um espaçamento interno
-                                horizontalAlignment = Alignment.CenterHorizontally // Alinha o conteúdo horizontalmente no centro
-                            ){
+                                    .fillMaxWidth()
+                                    .background(Color.Black.copy(0.3f))
+                                    .padding(16.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                // Coloque aqui o conteúdo do seu BottomSheet (Text, Row, etc.)
                                 //Linha com Imagem e Textos
                                 Row ( modifier = Modifier
                                     .fillMaxWidth()
@@ -120,32 +124,32 @@ class MainActivity : ComponentActivity() {
                                                 .padding(bottom = 8.dp) // Espaçamento abaixo do título
                                         )
 
-                                    Column(
-                                        modifier = Modifier
-                                            .padding(start = 0.dp) // Espaçamento entre a imagem e a coluna de textos
-                                            .height(100.dp) // Altura da coluna de textos)
-                                            .fillMaxWidth() // Faz a coluna ocupar toda a largura
-                                            .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
-                                            .background(Color.Gray.copy(alpha = 0.3f))
-                                            .padding(16.dp) // Espaçamento interno
+                                        Column(
+                                            modifier = Modifier
+                                                .padding(start = 0.dp) // Espaçamento entre a imagem e a coluna de textos
+                                                .height(100.dp) // Altura da coluna de textos)
+                                                .fillMaxWidth() // Faz a coluna ocupar toda a largura
+                                                .clip(RoundedCornerShape(15.dp)) // Define a forma arredondada dos cantos
+                                                .background(Color.Gray.copy(alpha = 0.3f))
+                                                .padding(16.dp) // Espaçamento interno
 
-                                    ) {
+                                        ) {
 
-                                        Text(
-                                            text = colorHex,
-                                            fontSize = 14.sp // Tamanho padrão
-                                        )
-                                        Text(
-                                            text = colorRgb,
-                                            fontSize = 14.sp// Tamanho menor do texto
-                                        )
-                                        Text(
-                                            text = colorRyb,
-                                            fontSize = 14.sp // Tamanho menor do texto
-                                        )
+                                            Text(
+                                                text = colorHex,
+                                                fontSize = 14.sp // Tamanho padrão
+                                            )
+                                            Text(
+                                                text = colorRgb,
+                                                fontSize = 14.sp// Tamanho menor do texto
+                                            )
+                                            Text(
+                                                text = colorRyb,
+                                                fontSize = 14.sp // Tamanho menor do texto
+                                            )
+                                        }
+
                                     }
-
-                                }
                                 }
 
                                 Column(
@@ -243,7 +247,7 @@ class MainActivity : ComponentActivity() {
                                                     modifier = Modifier.fillMaxWidth() // Preenche a largura do Box
                                                         .padding(10.dp)
                                                         .fillMaxHeight(),
-                                                            verticalArrangement = Arrangement.Center
+                                                    verticalArrangement = Arrangement.Center
                                                 ) {
                                                     Row(
                                                         modifier = Modifier.fillMaxWidth(),
@@ -295,9 +299,6 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
 
-
-
-
                                 Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -328,18 +329,22 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
 
-                            }
-                        },
 
-                            )
-                    {
+
+
+
+
+                            }
+                        }
+                    ) {
+                        // Conteúdo principal da tela
                         Box(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
-                        ){
+                        ) {
                             Button(onClick = {
-                                scope.launch { //Lança uma corrotina no escopo
-                                    scaffoldState.bottomSheetState.expand() //Expande o BottomSheet
+                                scope.launch {
+                                    scaffoldState.bottomSheetState.expand()
                                 }
                             }) {
                                 Text(text = "Open PrismaVI Bottom Sheet!")
@@ -351,4 +356,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
